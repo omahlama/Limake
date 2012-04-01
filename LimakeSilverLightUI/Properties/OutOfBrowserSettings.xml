@@ -1,0 +1,7 @@
+<OutOfBrowserSettings ShortName="LimakeSilverLightUI Application" EnableGPUAcceleration="False" ShowInstallMenuItem="True">
+  <OutOfBrowserSettings.Blurb>LimakeSilverLightUI Application on your desktop; at home, at work or on the go.</OutOfBrowserSettings.Blurb>
+  <OutOfBrowserSettings.WindowSettings>
+    <WindowSettings Title="LimakeSilverLightUI Application" Height="800" Width="1000" />
+  </OutOfBrowserSettings.WindowSettings>
+  <OutOfBrowserSettings.Icons />
+</OutOfBrowserSettings>

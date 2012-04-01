@@ -1,0 +1,16 @@
+﻿<UserControl x:Class="LimakeSilverLightUI.Die"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="64" d:DesignWidth="64">
+    
+    <Canvas Height="64" Width="64">
+        <Canvas.Clip>
+            <RectangleGeometry Rect="0,0,64,64" />
+        </Canvas.Clip>
+        <Image x:Name="image" Source="/LimakeSilverLightUI;component/Noppa.png" Canvas.Left="0" />
+    </Canvas>
+
+</UserControl>

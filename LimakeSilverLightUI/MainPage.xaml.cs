@@ -36,6 +36,18 @@ namespace LimakeSilverLightUI
             game.DisplayRoll += DisplayRollHandler;
             game.SelectMove += SelectMoveHandler;
             game.Run();
+
+            Application.Current.Host.Content.Resized += new EventHandler(Content_Resized);
+        }
+
+        // Make this game scale to fit the space it is given
+        private void Content_Resized(object sender, EventArgs e)
+        {
+            double scale = Math.Min(Application.Current.Host.Content.ActualWidth, Application.Current.Host.Content.ActualHeight) / 800;
+            ScaleTransform st = new ScaleTransform();
+            st.ScaleX = scale;
+            st.ScaleY = scale;
+            this.RenderTransform = st;
         }
 
         private bool firstLayout = true;

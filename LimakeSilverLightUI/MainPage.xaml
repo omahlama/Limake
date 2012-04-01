@@ -6,26 +6,41 @@
     mc:Ignorable="d"
     xmlns:ec="clr-namespace:Microsoft.Expression.Controls;assembly=Microsoft.Expression.Controls"
     xmlns:limake="clr-namespace:LimakeSilverLightUI"
-    d:DesignHeight="800" d:DesignWidth="800">
+    d:DesignHeight="800" d:DesignWidth="800" x:Name="root">
     
     <Canvas x:Name="mainCanvas" Background="White" Width="800" Height="800">
+        <!-- Paths for drawing the board -->
+        <Path Stroke="Black" StrokeThickness="1">
+            <Path.Fill>
+                <RadialGradientBrush GradientOrigin="0.5,0.5" Center="0.5,0.5" RadiusX="0.5" RadiusY="0.5">
+                    <GradientStop Color="White" Offset="0" />
+                    <GradientStop Color="#eee" Offset="0.75" />
+                    <GradientStop Color="#ccc" Offset="1" />
+                </RadialGradientBrush>
+            </Path.Fill>
+            <Path.Data>
+                <RectangleGeometry Rect="0,0,800,800" RadiusX="200" RadiusY="200"></RectangleGeometry>
+            </Path.Data>
+        </Path>
+        <!-- End of bg images -->
+
         <limake:Die x:Name="die"  Canvas.Left="368" Canvas.Top="368"/>
-        
-        <Path x:Name="boardPath" Stroke="Black" StrokeThickness="1">
+
+        <Path x:Name="boardPath" Stroke="Black" StrokeThickness="0">
             <Path.Data>
                 <RectangleGeometry Rect="100,100,600,600" RadiusX="200" RadiusY="200"></RectangleGeometry>
             </Path.Data>
         </Path>
-        
-        <Path x:Name="greenGoalPath" Stroke="Black" StrokeThickness="1" Data="M200,200 l125,125"/>
-        <Path x:Name="redGoalPath" Stroke="Black" StrokeThickness="1" Data="M600,200 l-125,125"/>
-        <Path x:Name="blueGoalPath" Stroke="Black" StrokeThickness="1" Data="M600,600 l-125,-125"/>
-        <Path x:Name="yellowGoalPath" Stroke="Black" StrokeThickness="1" Data="M 200,600 l125,-125"/>
-        
-        <Path x:Name="greenHomePath" Stroke="Black" StrokeThickness="1" Data="M50,200 c25,-50 100,-125 150,-150"/>
-        <Path x:Name="redHomePath" Stroke="Black" StrokeThickness="1" Data="M600,50 c50,25 125,100 150,150"/>
-        <Path x:Name="blueHomePath" Stroke="Black" StrokeThickness="1" Data="M750,600 c-25,50 -100,125 -150,150"/>
-        <Path x:Name="yellowHomePath" Stroke="Black" StrokeThickness="1" Data="M200,750 c-50,-25 -125,-100 -150,-150"/>
+
+        <Path x:Name="greenGoalPath" Stroke="Black" StrokeThickness="0" Data="M200,200 l125,125"/>
+        <Path x:Name="redGoalPath" Stroke="Black" StrokeThickness="0" Data="M600,200 l-125,125"/>
+        <Path x:Name="blueGoalPath" Stroke="Black" StrokeThickness="0" Data="M600,600 l-125,-125"/>
+        <Path x:Name="yellowGoalPath" Stroke="Black" StrokeThickness="0" Data="M 200,600 l125,-125"/>
+
+        <Path x:Name="greenHomePath" Stroke="Black" StrokeThickness="0" Data="M50,200 c25,-50 100,-125 150,-150"/>
+        <Path x:Name="redHomePath" Stroke="Black" StrokeThickness="0" Data="M600,50 c50,25 125,100 150,150"/>
+        <Path x:Name="blueHomePath" Stroke="Black" StrokeThickness="0" Data="M750,600 c-25,50 -100,125 -150,150"/>
+        <Path x:Name="yellowHomePath" Stroke="Black" StrokeThickness="0" Data="M200,750 c-50,-25 -125,-100 -150,-150"/>
         
         <ec:PathPanel x:Name="boardPanel">
             <ec:PathPanel.LayoutPaths>
@@ -72,26 +87,5 @@
                 <ec:LayoutPath SourceElement="{Binding ElementName=yellowHomePath}" Distribution="Even" />
             </ec:PathPanel.LayoutPaths>
         </ec:PathPanel>
-        
-        <Canvas.Resources>
-            <Storyboard x:Name="positionAnimation">
-                <DoubleAnimation
-                    x:Name="canvasLeftAnimation"
-                    Duration="0:0:1"
-                    Storyboard.TargetProperty="(Canvas.Left)">
-                    <DoubleAnimation.EasingFunction>
-                        <ExponentialEase EasingMode="EaseInOut" Exponent="6" />
-                    </DoubleAnimation.EasingFunction>
-                </DoubleAnimation>
-                <DoubleAnimation
-                    x:Name="canvasTopAnimation"
-                    Duration="0:0:1"
-                    Storyboard.TargetProperty="(Canvas.Top)">
-                    <DoubleAnimation.EasingFunction>
-                        <ExponentialEase EasingMode="EaseInOut" Exponent="6" />
-                    </DoubleAnimation.EasingFunction>
-                </DoubleAnimation>
-            </Storyboard>
-        </Canvas.Resources>
     </Canvas>
 </UserControl>

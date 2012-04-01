@@ -90,9 +90,6 @@
     <Compile Include="PositionControl.xaml.cs">
       <DependentUpon>PositionControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PositionUI.xaml.cs">
-      <DependentUpon>PositionUI.xaml</DependentUpon>
-    </Compile>
     <Compile Include="ThreadedLimakeGame.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -110,12 +107,6 @@
       <Project>{8C8E82D6-8958-4C28-BA50-E2154AB3E029}</Project>
       <Name>KimbleSL</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="PositionUI.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\OutOfBrowserSettings.xml" />

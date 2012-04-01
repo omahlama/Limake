@@ -7,7 +7,11 @@
     d:DesignHeight="40" d:DesignWidth="40">
 
     <Canvas Width="40" Height="40" x:Name="mainCanvas">
-        <Ellipse Width="40" Height="20" Canvas.Top="10" Canvas.Left="0" Stroke="Black" StrokeThickness="2"/>
-        <TextBlock Text="{Binding Name}" Canvas.Top="0" Canvas.Left="0"/>
+        <Ellipse Width="40" Height="20" Canvas.Top="10" Canvas.Left="0" Stroke="Black" StrokeThickness="2">
+            <Ellipse.Fill>
+                <SolidColorBrush Color="{Binding Color}" />
+            </Ellipse.Fill>
+        </Ellipse>
+        <TextBlock Text="{Binding Name}" Canvas.Top="0" Canvas.Left="0" Visibility="Collapsed"/>
     </Canvas>
 </UserControl>

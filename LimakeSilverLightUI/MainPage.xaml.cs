@@ -115,38 +115,47 @@ namespace LimakeSilverLightUI
 
                 if (i < (int)Position.GreenGoal1)
                 {
+                    pi.Color = Colors.White;
                     boardPanel.Children.Add(pc);
                 }
                 else if (i < (int)Position.RedGoal1)
                 {
+                    pi.Color = Colors.Green;
                     greenGoalPanel.Children.Add(pc);
                 }
                 else if (i < (int)Position.BlueGoal1)
                 {
+                    pi.Color = Colors.Red;
                     redGoalPanel.Children.Add(pc);
                 }
                 else if (i < (int)Position.YellowGoal1)
                 {
+                    pi.Color = Colors.Blue;
                     blueGoalPanel.Children.Add(pc);
                 }
                 else if (i < (int)Position.GreenHome1)
                 {
+                    pi.Color = Colors.Yellow;
                     yellowGoalPanel.Children.Add(pc);
                 }
                 else if (i < (int)Position.RedHome1)
                 {
+                    pi.Color = Colors.Green;
                     greenHomePanel.Children.Add(pc);
                 }
                 else if (i < (int)Position.BlueHome1)
                 {
+                    pi.Color = Colors.Red;
                     redHomePanel.Children.Add(pc);
                 }
                 else if (i < (int)Position.YellowHome1)
                 {
+                    pi.Color = Colors.Blue;
                     blueHomePanel.Children.Add(pc);
                 }
                 else
                 {
+                    pi.Color = Colors.Yellow;
                     yellowHomePanel.Children.Add(pc);
                 }
             }
@@ -257,6 +266,7 @@ namespace LimakeSilverLightUI
     public class PositionInfo
     {
         public String Name { get; set; }
+        public Color Color { get; set; }
     }
 
     public class PieceInfo

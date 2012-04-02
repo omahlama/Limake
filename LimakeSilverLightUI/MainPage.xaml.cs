@@ -36,6 +36,7 @@ namespace LimakeSilverLightUI
             game.DisplayRoll += DisplayRollHandler;
             game.SelectMove += SelectMoveHandler;
             game.BeersAccepted += BeersAcceptedHandler;
+            game.GameOver += GameOverHandler;
             game.Run();
 
             Application.Current.Host.Content.Resized += new EventHandler(Content_Resized);
@@ -279,6 +280,19 @@ namespace LimakeSilverLightUI
             {
                 BlueBeer.DrankCount -= amount;
             }
+        }
+
+        private void GameOverHandler(Piece winner)
+        {
+            if (winner == Piece.Blue)
+            {
+                WinnerLabel.Content = "You won!";
+            }
+            else
+            {
+                WinnerLabel.Content = "You lost, winner is " + winner;
+            }
+            WinnerOverlay.Visibility = System.Windows.Visibility.Visible;
         }
     }
 

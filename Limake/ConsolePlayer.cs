@@ -31,8 +31,17 @@ namespace Limake
         public void NoMovesAvailable(Situation situation)
         {
             Console.WriteLine("No moves available");
-//            Console.WriteLine(situation.ToString());
+        }
 
+        public int HowManyBeersAreDrunk()
+        {
+            Console.WriteLine("How many beers have you drunk since the last time I asked?");
+            int beers = -1;
+            do
+            {
+                beers = Convert.ToInt32(Console.ReadLine());
+            } while (beers < 0);
+            return beers;
         }
     }
 }

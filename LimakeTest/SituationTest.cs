@@ -818,6 +818,15 @@ namespace LimakeTest
             Assert.AreEqual(4, sit.beers[(int)Piece.Red]);
         }
 
+        [Test]
+        public void DrinkingBeerLowersTheNumber()
+        {
+            var sit = new Situation();
+            sit.beers[(int)Piece.Red] = 10;
+            sit.DrinkBeers(Piece.Red, 3);
+            Assert.AreEqual(7, sit.beers[(int)Piece.Red]);
+        }
+
 
         private static Position[] getStartPositions()
         {

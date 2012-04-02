@@ -537,5 +537,15 @@ namespace Limake
             int p1 = (int)x, p2 = (int)y;
             return p1-p2;
         }
+
+        public void DrinkBeers(Piece side, int beers)
+        {
+            if(beers < 0)
+                throw new ArgumentException("Can't drink negative beers");
+
+            this.beers[(int)side] -= beers;
+            if(this.beers[(int)side] < 0)
+                this.beers[(int)side] = 0;
+        }
     }
 }

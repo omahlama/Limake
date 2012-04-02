@@ -827,6 +827,25 @@ namespace LimakeTest
             Assert.AreEqual(7, sit.beers[(int)Piece.Red]);
         }
 
+        [Test]
+        public void CannotWinWhileTheresBeerLeft()
+        {
+            var pos = getStartPositions();
+            pos[0] = Position.GreenGoal1;
+            pos[1] = Position.GreenGoal2;
+            pos[2] = Position.GreenGoal3;
+            pos[3] = Position.GreenGoal4;
+
+            var sit = new Situation(pos);
+            sit.beers[(int)Piece.Green] = 1;
+
+            Assert.AreEqual(Piece.None, sit.GetWinner());
+
+            sit.DrinkBeers(Piece.Green, 1);
+
+            Assert.AreEqual(Piece.Green, sit.GetWinner());
+        }
+
 
         private static Position[] getStartPositions()
         {

@@ -404,6 +404,11 @@ namespace Limake
                 bool winner = true;
                 int sideGoalStart = (byte)Position.GreenGoal1 + (4 * i);
                 Piece currentSide = (Piece)(i+1);
+
+                //Can't win while there's beer left
+                if (this.beers[i + 1] > 0)
+                    continue;
+
                 for (int j = 0; j < 4; j++)
                 {
                     if (this.board[sideGoalStart + j] != currentSide)

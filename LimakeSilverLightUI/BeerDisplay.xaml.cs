@@ -16,9 +16,11 @@ namespace LimakeSilverLightUI
     public partial class BeerDisplay : UserControl
     {
         public EventHandler DrankBeer;
+        public bool Interactive { get; set; }
 
         public BeerDisplay()
         {
+            this.Interactive = false;
             InitializeComponent();
         }
 
@@ -88,7 +90,7 @@ namespace LimakeSilverLightUI
 
         private void Clicked(Object sender, MouseButtonEventArgs args)
         {
-            if (this.drankCount < this.beerCount)
+            if (this.Interactive && this.drankCount < this.beerCount)
             {
                 this.drankCount++;
                 UpdateBeers();

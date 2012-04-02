@@ -59,6 +59,7 @@ namespace LimakeSilverLightUI
             {
                 firstLayout = false;
                 InitializePieces();
+                BlueBeer.Interactive = true;
                 BlueBeer.DrankBeer += BlueDrankBeer;
             }
         }

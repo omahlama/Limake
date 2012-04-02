@@ -748,6 +748,77 @@ namespace LimakeTest
             }
         }
 
+        [Test]
+        public void EveryoneHasZeroBeersAtStart()
+        {
+            var sit = new Situation();
+            var sides = new Piece[] { Piece.Blue, Piece.Red, Piece.Green, Piece.Yellow };
+            foreach(Piece side in sides) {
+                Assert.AreEqual(0, sit.beers[(int)side]);
+            }
+        }
+
+        [Test]
+        public void RedShouldGetABeerWhenAPieceIsEaten()
+        {
+            var pos = getStartPositions();
+            pos[0] = Position.Blue1;
+            pos[5] = Position.Blue3;
+
+            var sit = new Situation(pos);
+            var moves = sit.GetMoves(Piece.Green, 2);
+            sit.ApplyMove(moves[0]);
+
+            Assert.AreEqual(1, sit.beers[(int)Piece.Red]);
+        }
+
+        [Test]
+        public void RedShouldGetTwoBeersWhenADoublePieceIsEaten()
+        {
+            var pos = getStartPositions();
+            pos[0] = Position.Blue1;
+            pos[5] = Position.Blue3;
+            pos[6] = Position.Blue3;
+
+            var sit = new Situation(pos);
+            var moves = sit.GetMoves(Piece.Green, 2);
+            sit.ApplyMove(moves[0]);
+
+            Assert.AreEqual(2, sit.beers[(int)Piece.Red]);
+        }
+
+        [Test]
+        public void RedShouldGetTwoBeersWhenAPieceIsEatenByADouble()
+        {
+            var pos = getStartPositions();
+            pos[0] = Position.Blue1;
+            pos[1] = Position.Blue1;
+            pos[5] = Position.Blue3;
+
+            var sit = new Situation(pos);
+            var moves = sit.GetMoves(Piece.Green, 2);
+            sit.ApplyMove(moves[0]);
+
+            Assert.AreEqual(2, sit.beers[(int)Piece.Red]);
+        }
+
+        [Test]
+        public void RedShouldGetFourBeersWhenADoublePieceIsEatenByADouble()
+        {
+            var pos = getStartPositions();
+            pos[0] = Position.Blue1;
+            pos[1] = Position.Blue1;
+            pos[5] = Position.Blue3;
+            pos[6] = Position.Blue3;
+
+            var sit = new Situation(pos);
+            var moves = sit.GetMoves(Piece.Green, 2);
+            sit.ApplyMove(moves[0]);
+
+            Assert.AreEqual(4, sit.beers[(int)Piece.Red]);
+        }
+
+
         private static Position[] getStartPositions()
         {
             return new Position[] { Position.GreenHome1, Position.GreenHome2, Position.GreenHome3, Position.GreenHome4,

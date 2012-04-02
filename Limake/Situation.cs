@@ -20,12 +20,20 @@ namespace Limake
         // 16 pieces
         public Position[] pieces;
 
+        // Amout of beers for each player to drink
+        public int[] beers;
+
         public Dictionary<int, List<int>> groupingDict;
 
         public Situation()
         {
             this.board = new Piece[60];
             this.pieces = new Position[16];
+            this.beers = new int[5];
+            for (int i = 0; i < 5; i++)
+            {
+                this.beers[i] = 0;
+            }
             this.groupingDict = new Dictionary<int, List<int>>();
         }
 
@@ -33,6 +41,7 @@ namespace Limake
         {
             this.board = (Piece[])s.board.Clone();
             this.pieces = (Position[])s.pieces.Clone();
+            this.beers = (int[])s.beers.Clone();
             this.groupingDict = new Dictionary<int, List<int>>(s.groupingDict);
         }
 
@@ -171,6 +180,12 @@ namespace Limake
             Piece endPiece = board[(int)move.EndPosition];
             if (endPiece != Piece.None && move.Type != MoveType.DoubleUp)
             {
+                int currentPieceSize = 1;
+                if (this.groupingDict.ContainsKey(move.Piece))
+                {
+                    currentPieceSize = this.groupingDict[(int)move.Piece].Count;
+                }
+
                 int piecePos = 0;
                 while (pieces[piecePos] != move.EndPosition)
                 {
@@ -182,12 +197,14 @@ namespace Limake
                     List<int> list = this.groupingDict[piecePos];
                     foreach (int i in list)
                     {
+                        this.beers[(int)endPiece] += currentPieceSize;
                         MoveToHome(endPiece, i);
                     }
                     GenerateGroupings();
                 }
                 else
                 {
+                    this.beers[(int)endPiece] += currentPieceSize;
                     MoveToHome(endPiece, piecePos);
                 }
                 SortHome(endPiece);

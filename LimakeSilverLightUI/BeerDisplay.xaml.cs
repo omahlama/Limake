@@ -15,6 +15,8 @@ namespace LimakeSilverLightUI
 {
     public partial class BeerDisplay : UserControl
     {
+        public EventHandler DrankBeer;
+
         public BeerDisplay()
         {
             InitializeComponent();
@@ -26,8 +28,24 @@ namespace LimakeSilverLightUI
             get { return beerCount; }
             set
             {
-                beerCount = value;
-                this.UpdateBeers();
+                if (beerCount != value)
+                {
+                    beerCount = value;
+                    UpdateBeers();
+                }
+            }
+        }
+
+        private int drankCount = 0;
+        public int DrankCount
+        {
+            get { return drankCount; }
+            set {
+                if (drankCount != value)
+                {
+                    drankCount = value;
+                    UpdateBeers();
+                }
             }
         }
 
@@ -55,11 +73,31 @@ namespace LimakeSilverLightUI
             {
                 Image image = new Image();
                 image.Source = source;
+
+                if (i < this.drankCount)
+                {
+                    image.Opacity = 0.5;
+                }
+
                 Grid.SetColumn(image, i % cols);
                 Grid.SetRow(image, i / cols);
                 g.Children.Add(image);
             }
 
+        }
+
+        private void Clicked(Object sender, MouseButtonEventArgs args)
+        {
+            if (this.drankCount < this.beerCount)
+            {
+                this.drankCount++;
+                UpdateBeers();
+
+                if (DrankBeer != null)
+                {
+                    DrankBeer(this, new EventArgs());
+                }
+            }
         }
     }
 }

@@ -35,6 +35,7 @@ namespace LimakeSilverLightUI
             game.DisplaySituation += DisplaySituationHandler;
             game.DisplayRoll += DisplayRollHandler;
             game.SelectMove += SelectMoveHandler;
+            game.BeersAccepted += BeersAcceptedHandler;
             game.Run();
 
             Application.Current.Host.Content.Resized += new EventHandler(Content_Resized);
@@ -58,8 +59,7 @@ namespace LimakeSilverLightUI
             {
                 firstLayout = false;
                 InitializePieces();
-
-                AnimatePieceToPosition(4, Position.Red5);
+                BlueBeer.DrankBeer += BlueDrankBeer;
             }
         }
 
@@ -266,6 +266,19 @@ namespace LimakeSilverLightUI
         }
 
         private int animationCounter = 0;
+
+        public void BlueDrankBeer(object sender, EventArgs args)
+        {
+            game.DrankBeer(Piece.Blue, 1);
+        }
+
+        private void BeersAcceptedHandler(Piece side, int amount)
+        {
+            if (side == Piece.Blue)
+            {
+                BlueBeer.DrankCount -= amount;
+            }
+        }
     }
 
     public class PositionInfo

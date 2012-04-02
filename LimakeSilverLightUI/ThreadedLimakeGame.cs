@@ -20,6 +20,7 @@ namespace LimakeSilverLightUI
     public delegate void DisplaySituationHandler(Situation situation);
     public delegate void DisplayMoveHandler(Move move);
     public delegate void DisplayNoMoveHandler();
+    public delegate void BeersAcceptedHandler(Piece side, int count);
     public delegate void GameOverHandler(Piece winner);
     public delegate void ErrorHandler(String error);
 
@@ -32,6 +33,7 @@ namespace LimakeSilverLightUI
         public DisplaySituationHandler DisplaySituation;
         public DisplayMoveHandler DisplayMove;
         public DisplayNoMoveHandler DisplayNoMove;
+        public BeersAcceptedHandler BeersAccepted;
         public GameOverHandler GameOver;
         public ErrorHandler Error;
 
@@ -40,10 +42,12 @@ namespace LimakeSilverLightUI
         private Game game;
         Thread thread;
         private volatile int selectedMove;
-
+        private int[] beersDrunk;
 
         public ThreadedLimakeGame()
         {
+            beersDrunk = new int[5];
+
             IPlayer[] players = new IPlayer[] { new BasicPlayer(), new BasicPlayer(), this, new BasicPlayer() };
             game = new Game(this, players);
         }
@@ -52,6 +56,11 @@ namespace LimakeSilverLightUI
         {
             thread = new Thread(DoRun);
             thread.Start();
+        }
+
+        public void DrankBeer(Piece side, int amount)
+        {
+            beersDrunk[(int)side] += amount;
         }
 
         private void DoRun()
@@ -112,7 +121,15 @@ namespace LimakeSilverLightUI
 
         int IPlayer.HowManyBeersAreDrunk(Piece side)
         {
-            return 0;
+            int beers = beersDrunk[(int)side];
+            beersDrunk[(int)side] = 0;
+            if (BeersAccepted != null)
+            {
+                Deployment.Current.Dispatcher.BeginInvoke(() =>
+                    BeersAccepted(side, beers)
+                );
+            }
+            return beers;
         }
 
         private void Delay(bool isLong)

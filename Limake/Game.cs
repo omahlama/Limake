@@ -35,6 +35,11 @@ namespace Limake
             {
                 Piece currentSide = (Piece)((turn % 4) + 1);
                 display.DisplayTurn(currentSide, turn);
+                if (situation.beers[(int)currentSide] > 0)
+                {
+                    int beers = players[turn % 4].HowManyBeersAreDrunk(currentSide);
+                    situation.DrinkBeers(currentSide, beers);
+                }
                 bool didMove = false;
                 int triesLeft = situation.GetNumberOfTries(currentSide);
                 do
@@ -43,11 +48,6 @@ namespace Limake
                     do
                     {
                         display.DisplaySituation(situation);
-                        if (situation.beers[(int)currentSide] > 0)
-                        {
-                            int beers = players[turn % 4].HowManyBeersAreDrunk(currentSide);
-                            situation.DrinkBeers(currentSide, beers);
-                        }
                         roll = PopOMatic();
                         display.DisplayRoll(roll);
                         Move[] moves = situation.GetMoves(currentSide, roll);

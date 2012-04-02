@@ -6,6 +6,6 @@
     mc:Ignorable="d"
     d:DesignHeight="100" d:DesignWidth="100" Width="100" Height="100">
     
-    <Grid x:Name="LayoutRoot" Background="Transparent">
+    <Grid x:Name="LayoutRoot" Background="Transparent" MouseLeftButtonDown="Clicked">
     </Grid>
 </UserControl>

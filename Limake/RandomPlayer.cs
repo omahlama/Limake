@@ -27,7 +27,7 @@ namespace Limake
         {
         }
 
-        public int HowManyBeersAreDrunk()
+        public int HowManyBeersAreDrunk(Piece side)
         {
             int r = rand.Next(10);
             if (r > 8)

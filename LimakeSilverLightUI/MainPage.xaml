@@ -87,5 +87,10 @@
                 <ec:LayoutPath SourceElement="{Binding ElementName=yellowHomePath}" Distribution="Even" />
             </ec:PathPanel.LayoutPaths>
         </ec:PathPanel>
+        
+        <limake:BeerDisplay x:Name="GreenBeer" Canvas.Left="275" Canvas.Top="125" />
+        <limake:BeerDisplay x:Name="RedBeer" Canvas.Left="575" Canvas.Top="275" />
+        <limake:BeerDisplay x:Name="YellowBeer" Canvas.Left="125" Canvas.Top="425" />
+        <limake:BeerDisplay x:Name="BlueBeer" Canvas.Left="425" Canvas.Top="575" />
     </Canvas>
 </UserControl>

@@ -167,6 +167,11 @@ namespace LimakeSilverLightUI
             {
                 AnimatePieceToPosition(i, situation.pieces[i]);
             }
+
+            GreenBeer.BeerCount = situation.beers[(int)Piece.Green];
+            RedBeer.BeerCount = situation.beers[(int)Piece.Red];
+            BlueBeer.BeerCount = situation.beers[(int)Piece.Blue];
+            YellowBeer.BeerCount = situation.beers[(int)Piece.Yellow];
         }
 
         private void DisplayRollHandler(int roll)

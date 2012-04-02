@@ -110,6 +110,11 @@ namespace LimakeSilverLightUI
             }
         }
 
+        int IPlayer.HowManyBeersAreDrunk(Piece side)
+        {
+            return 0;
+        }
+
         private void Delay(bool isLong)
         {
             Thread.Sleep(isLong ? delayAmount : 50);

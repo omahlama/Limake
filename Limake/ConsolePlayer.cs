@@ -33,7 +33,7 @@ namespace Limake
             Console.WriteLine("No moves available");
         }
 
-        public int HowManyBeersAreDrunk()
+        public int HowManyBeersAreDrunk(Piece side)
         {
             Console.WriteLine("How many beers have you drunk since the last time I asked?");
             int beers = -1;

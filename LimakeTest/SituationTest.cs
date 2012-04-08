@@ -846,6 +846,46 @@ namespace LimakeTest
             Assert.AreEqual(Piece.Green, sit.GetWinner());
         }
 
+        [Test]
+        public void DoubleUnfoldsWhenPiecesBeforeItAreFilled()
+        {
+            var pos = getStartPositions();
+            pos[0] = Position.GreenGoal4;
+            pos[1] = pos[2] = Position.GreenGoal2;
+            pos[3] = Position.GreenGoal1;
+
+            var sit = new Situation(pos);
+            var moves = sit.GetMoves(Piece.Green, 2);
+
+            sit.ApplyMove(moves[0]);
+
+            Assert.AreEqual(Piece.Green, sit.board[(int)Position.GreenGoal1]);
+            Assert.AreEqual(Piece.Green, sit.board[(int)Position.GreenGoal2]);
+            Assert.AreEqual(Piece.Green, sit.board[(int)Position.GreenGoal3]);
+            Assert.AreEqual(Piece.Green, sit.board[(int)Position.GreenGoal4]);
+
+            Assert.AreEqual(Piece.Green, sit.GetWinner());
+        }
+
+        [Test]
+        public void TripleFinishesOverOwnPiece()
+        {
+            var pos = getStartPositions();
+            pos[0] = Position.GreenGoal2;
+            pos[1] = pos[2] = pos[3] = Position.GreenGoal1;
+
+            var sit = new Situation(pos);
+            var moves = sit.GetMoves(Piece.Green, 3);
+
+            sit.ApplyMove(moves[0]);
+
+            Assert.AreEqual(Piece.Green, sit.board[(int)Position.GreenGoal1]);
+            Assert.AreEqual(Piece.Green, sit.board[(int)Position.GreenGoal2]);
+            Assert.AreEqual(Piece.Green, sit.board[(int)Position.GreenGoal3]);
+            Assert.AreEqual(Piece.Green, sit.board[(int)Position.GreenGoal4]);
+
+            Assert.AreEqual(Piece.Green, sit.GetWinner());
+        }
 
         private static Position[] getStartPositions()
         {

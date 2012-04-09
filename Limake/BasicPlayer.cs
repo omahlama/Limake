@@ -65,7 +65,7 @@ namespace Limake
         private int beerCounter = 0;
         public int HowManyBeersAreDrunk(Piece side)
         {
-            if (++beerCounter % 10 == 0)
+            if (++beerCounter % 40 == 0)
                 return 1;
             return 0;
         }

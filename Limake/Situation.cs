@@ -460,10 +460,10 @@ namespace Limake
                 }
             }
 
+            if (inGoal == 4)
+                return 0;
             if (atHome + inGoal == 4)
-            {
                 return 3;
-            }
             return 1;
         }
 

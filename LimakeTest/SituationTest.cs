@@ -436,6 +436,21 @@ namespace LimakeTest
         }
 
         [Test]
+        public void Test0ThrowsWhenFinishedButBeerLeft()
+        {
+            Position[] pos = getStartPositions();
+            pos[4] = Position.RedGoal3;
+            pos[5] = Position.RedGoal4;
+            pos[6] = Position.RedGoal2;
+            pos[7] = Position.RedGoal1;
+            Situation sit = new Situation(pos);
+
+            sit.beers[(int)Piece.Red] = 3;
+
+            Assert.AreEqual(0, sit.GetNumberOfTries(Piece.Red));
+        }
+
+        [Test]
         public void TestCannotEatAPieceInStartPosition()
         {
             Position[] pos = getStartPositions();

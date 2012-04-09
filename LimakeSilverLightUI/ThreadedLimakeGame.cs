@@ -184,16 +184,23 @@ namespace LimakeSilverLightUI
             }
         }
 
+        AutoResetEvent displayARE = new AutoResetEvent(false);
         void IGameDisplay.DisplaySituation(Situation situation)
         {
+            displayARE.Reset();
             if (DisplaySituation != null)
             {
                 Deployment.Current.Dispatcher.BeginInvoke(delegate()
                 {
                     DisplaySituation(situation);
                 });
-                Delay(true);
             }
+            displayARE.WaitOne();
+        }
+
+        public void DisplaySituationComplete()
+        {
+            displayARE.Set();
         }
 
         void IGameDisplay.DispĺayMove(Move move)

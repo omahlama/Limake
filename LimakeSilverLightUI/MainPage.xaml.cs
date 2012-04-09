@@ -174,10 +174,30 @@ namespace LimakeSilverLightUI
 
         private void DisplaySituationHandler(Situation situation)
         {
-            for (int i = 0; i < situation.pieces.Length; i++)
+            CreateStoryBoard(situation.HasMultistepAnimation());
+            for (int i = 0; i < situation.animations.Length; i++)
             {
-                AnimatePieceToPosition(i, situation.pieces[i]);
+                if (situation.animations[i] != null)
+                {
+                    foreach (Situation.Animation animation in situation.animations[i])
+                    {
+                        AnimatePieceToPosition(animation.Piece, animation.Start, animation.End, i);
+                    }
+                }
             }
+            StartAnimation();
+            situation.ClearAnimations();
+
+            // When animation is done, move all pieces to correct positions to account for non-animated moves
+            board.Completed += (sender, args) =>
+            {
+                for (int i = 0; i < situation.pieces.Length; i++)
+                {
+                    Point p = GetAbsolutePosition(situation.pieces[i]);
+                    Canvas.SetLeft(pieces[i], p.X);
+                    Canvas.SetTop(pieces[i], p.Y);
+                }
+            };
 
             GreenBeer.BeerCount = situation.beers[(int)Piece.Green];
             RedBeer.BeerCount = situation.beers[(int)Piece.Red];
@@ -236,47 +256,94 @@ namespace LimakeSilverLightUI
             }
         }
 
-        private void AnimatePieceToPosition(int piece, Position position)
+        private Storyboard board;
+        private Duration duration;
+        private Dictionary<int, DoubleAnimationUsingKeyFrames> leftAnimationDict, topAnimationDict;
+        private void CreateStoryBoard(bool multistep)
         {
-            PieceControl pieceControl = pieces[piece];
-            PositionControl positionControl = positionControls[(int)position];
+            board = new Storyboard();
+            duration = new Duration(TimeSpan.FromMilliseconds(ThreadedLimakeGame.delayAmount));
+            board.Duration = new Duration(TimeSpan.FromMilliseconds(ThreadedLimakeGame.delayAmount*(multistep?2:1)));
+            board.Completed += (sender, args) => game.DisplaySituationComplete();
 
-            Point point = GetAbsolutePosition(position);
-
-            Storyboard board = new Storyboard();
-            Duration duration = new Duration(TimeSpan.FromMilliseconds(ThreadedLimakeGame.delayAmount));
-            board.Duration = duration;
-
-            ExponentialEase ease = new ExponentialEase();
-            ease.Exponent = 2;
-            ease.EasingMode = EasingMode.EaseInOut;
-
-            DoubleAnimation leftAnimation = new DoubleAnimation();
-            DoubleAnimation topAnimation = new DoubleAnimation();
-
-            leftAnimation.Duration = duration;
-            topAnimation.Duration = duration;
-
-            leftAnimation.EasingFunction = ease;
-            topAnimation.EasingFunction = ease;
-
-            board.Children.Add(leftAnimation);
-            board.Children.Add(topAnimation);
-
-            Storyboard.SetTarget(leftAnimation, pieceControl);
-            Storyboard.SetTargetProperty(leftAnimation, new PropertyPath("(Canvas.Left)"));
-
-            Storyboard.SetTarget(topAnimation, pieceControl);
-            Storyboard.SetTargetProperty(topAnimation, new PropertyPath("(Canvas.Top)"));
-
-            leftAnimation.To = point.X;
-            topAnimation.To = point.Y;
-
-            mainCanvas.Resources.Add("Animation_" + (animationCounter++), board);
-            board.Begin();
+            leftAnimationDict = new Dictionary<int, DoubleAnimationUsingKeyFrames>();
+            topAnimationDict = new Dictionary<int, DoubleAnimationUsingKeyFrames>();
         }
 
         private int animationCounter = 0;
+        private void StartAnimation()
+        {
+            mainCanvas.Resources.Add("Animation_" + (animationCounter++), board);
+            board.Begin();
+            leftAnimationDict = new Dictionary<int, DoubleAnimationUsingKeyFrames>();
+            topAnimationDict = new Dictionary<int, DoubleAnimationUsingKeyFrames>();
+        }
+
+        private void AnimatePieceToPosition(int piece, Position start, Position end, int phase)
+        {
+            TimeSpan beginTime = TimeSpan.FromMilliseconds(ThreadedLimakeGame.delayAmount * phase),
+                    endTime = TimeSpan.FromMilliseconds(ThreadedLimakeGame.delayAmount * (phase+1));
+
+            PieceControl pieceControl = pieces[piece];
+
+            Point startpoint = GetAbsolutePosition(start);
+            Point endpoint = GetAbsolutePosition(end);
+            
+            DoubleAnimationUsingKeyFrames leftAnimation, topAnimation;
+            if (leftAnimationDict.ContainsKey(piece))
+            {
+                leftAnimation = leftAnimationDict[piece];
+            }
+            else
+            {
+                leftAnimation = new DoubleAnimationUsingKeyFrames();
+                leftAnimationDict[piece] = leftAnimation;
+                board.Children.Add(leftAnimation);
+
+                Storyboard.SetTarget(leftAnimation, pieceControl);
+                Storyboard.SetTargetProperty(leftAnimation, new PropertyPath("(Canvas.Left)"));
+            }
+
+            if (topAnimationDict.ContainsKey(piece))
+            {
+                topAnimation = topAnimationDict[piece];
+            }
+            else
+            {
+                topAnimation = new DoubleAnimationUsingKeyFrames();
+                topAnimationDict[piece] = topAnimation;
+                board.Children.Add(topAnimation);
+
+                Storyboard.SetTarget(topAnimation, pieceControl);
+                Storyboard.SetTargetProperty(topAnimation, new PropertyPath("(Canvas.Top)"));
+            }
+
+            LinearDoubleKeyFrame leftStart = new LinearDoubleKeyFrame()
+            {
+                Value = startpoint.X,
+                KeyTime = KeyTime.FromTimeSpan(beginTime)
+            };
+            LinearDoubleKeyFrame leftEnd = new LinearDoubleKeyFrame()
+            {
+                Value = endpoint.X,
+                KeyTime = KeyTime.FromTimeSpan(endTime)
+            };
+            leftAnimation.KeyFrames.Add(leftStart);
+            leftAnimation.KeyFrames.Add(leftEnd);
+
+            LinearDoubleKeyFrame topStart = new LinearDoubleKeyFrame()
+            {
+                Value = startpoint.Y,
+                KeyTime = KeyTime.FromTimeSpan(beginTime)
+            };
+            LinearDoubleKeyFrame topEnd = new LinearDoubleKeyFrame()
+            {
+                Value = endpoint.Y,
+                KeyTime = KeyTime.FromTimeSpan(endTime)
+            };
+            topAnimation.KeyFrames.Add(topStart);
+            topAnimation.KeyFrames.Add(topEnd);
+        }
 
         public void BlueDrankBeer(object sender, EventArgs args)
         {

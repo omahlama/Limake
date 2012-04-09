@@ -20,6 +20,8 @@ namespace Limake
         // 16 pieces
         public Position[] pieces;
 
+        public List<Animation>[] animations;
+
         // Amout of beers for each player to drink
         public int[] beers;
 
@@ -30,6 +32,7 @@ namespace Limake
             this.board = new Piece[60];
             this.pieces = new Position[16];
             this.beers = new int[5];
+            this.animations = new List<Animation>[2];
             for (int i = 0; i < 5; i++)
             {
                 this.beers[i] = 0;
@@ -42,6 +45,7 @@ namespace Limake
             this.board = (Piece[])s.board.Clone();
             this.pieces = (Position[])s.pieces.Clone();
             this.beers = (int[])s.beers.Clone();
+            this.animations = new List<Animation>[2];
             this.groupingDict = new Dictionary<int, List<int>>(s.groupingDict);
         }
 
@@ -154,7 +158,7 @@ namespace Limake
                     if ((Position)newPos == SafetySpots[(int)targetPiece])
                     {
                         int endPos = GetFreeHomePosition(side);
-                        moves.Add(new Move(i, pos, (Position)(endPos), MoveType.SelfTackle));
+                        moves.Add(new Move(i, pos, (Position)(endPos), MoveType.SelfTackle, (Position)newPos));
                     }
                     else
                     {
@@ -177,6 +181,8 @@ namespace Limake
 
         public void ApplyMove(Move move)
         {
+            this.ClearAnimations();
+
             Piece endPiece = board[(int)move.EndPosition];
             if (endPiece != Piece.None && move.Type != MoveType.DoubleUp)
             {
@@ -217,6 +223,7 @@ namespace Limake
                     List<int> list = this.groupingDict[move.Piece];
                     foreach (int i in list)
                     {
+                        AddAnimation(0, i, move.StartPosition, move.MiddlePosition);
                         MoveToHome(board[(int)move.StartPosition], i);
                     }
                 }
@@ -225,11 +232,22 @@ namespace Limake
                     foreach (int i in groupPieces)
                     {
                         pieces[i] = move.EndPosition;
+                        this.AddAnimation(0, i, move.StartPosition, move.EndPosition);
                     }
                 }
             }
             else
             {
+                if (move.Type == MoveType.SelfTackle)
+                {
+                    AddAnimation(0, move.Piece, move.StartPosition, move.MiddlePosition);
+                    AddAnimation(1, move.Piece, move.MiddlePosition, move.EndPosition);
+                }
+                else
+                {
+                    this.AddAnimation(0, move.Piece, move.StartPosition, move.EndPosition);
+                }
+
                 pieces[move.Piece] = move.EndPosition;
             }
             board[(int)move.EndPosition] = board[(int)move.StartPosition];
@@ -254,8 +272,10 @@ namespace Limake
                                 int pos = sideGoalStart + k;
                                 if (board[pos] == Piece.None)
                                 {
-                                    pieces[g[last--]] = (Position)pos;
+                                    pieces[g[last]] = (Position)pos;
                                     board[pos] = side;
+                                    AddAnimation(1, g[last], pieces[g[0]], (Position)pos); 
+                                    last--;
                                 }
                             }
                         }
@@ -275,6 +295,7 @@ namespace Limake
             board[homePos] = side;
 
             Console.WriteLine("Save: " + piecePos + " " + pieces[piecePos] + " " + (Position)homePos);
+            AddAnimation(1, piecePos, pieces[piecePos], (Position)homePos);
             pieces[piecePos] = (Position)homePos;
         }
 
@@ -542,6 +563,29 @@ namespace Limake
             this.beers[(int)side] -= beers;
             if(this.beers[(int)side] < 0)
                 this.beers[(int)side] = 0;
+        }
+
+        public void ClearAnimations()
+        {
+            this.animations[0] = new List<Animation>();
+            this.animations[1] = new List<Animation>();
+        }
+
+        private void AddAnimation(int step, int piece, Position start, Position end)
+        {
+            this.animations[step].Add(new Animation() { Start = start, End = end, Piece = piece });
+        }
+
+        public bool HasMultistepAnimation()
+        {
+            return this.animations[1] != null && this.animations[1].Count > 0;
+        }
+
+        public struct Animation
+        {
+            public int Piece;
+            public Position Start;
+            public Position End;
         }
     }
 }

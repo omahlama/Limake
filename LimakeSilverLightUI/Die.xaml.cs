@@ -31,9 +31,9 @@ namespace LimakeSilverLightUI
         public void SetNumber(int number)
         {
             StartAngle.Value = EndAngle.Value;
-            Angle1.Value = randRange(90);
-            Angle2.Value = randRange(90);
-            EndAngle.Value = randRange(90);
+            Angle1.Value = StartAngle.Value + randRange(90);
+            Angle2.Value = Angle1.Value + randRange(90);
+            EndAngle.Value = Angle2.Value + randRange(90);
 
             StartX.Value = EndX.Value;
             X1.Value = randRange(20);
@@ -45,8 +45,10 @@ namespace LimakeSilverLightUI
             Y2.Value = randRange(20);
             EndY.Value = randRange(20);
 
+            N1.Value = -64 * rand.Next(6);
+            EndN.Value = -64 * (number - 1);
+
             RollAnimation.Begin();
-            Canvas.SetLeft(image, -64 * (number - 1));
         }
 
         private bool active;

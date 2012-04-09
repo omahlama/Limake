@@ -67,6 +67,12 @@
                     <LinearDoubleKeyFrame x:Name="Y2" Value="0" KeyTime="0:0:0.2" />
                     <LinearDoubleKeyFrame x:Name="EndY" Value="0" KeyTime="0:0:0.3" />
                 </DoubleAnimationUsingKeyFrames>
+                <DoubleAnimationUsingKeyFrames 
+                    Storyboard.TargetName="image" 
+                    Storyboard.TargetProperty="(Canvas.Left)">
+                    <DiscreteDoubleKeyFrame x:Name="N1" Value="0" KeyTime="0:0:0.15" />
+                    <DiscreteDoubleKeyFrame x:Name="EndN" Value="0" KeyTime="0:0:0.3" />
+                </DoubleAnimationUsingKeyFrames>
             </Storyboard>
         </Canvas.Resources>
     </Canvas>

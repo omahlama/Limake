@@ -11,10 +11,11 @@ using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using Limake;
 using System.Threading;
+using System.Windows.Navigation;
 
 namespace LimakeSilverLightUI
 {
-    public partial class MainPage : UserControl
+    public partial class MainPage : Page
     {
         private ThreadedLimakeGame game;
         private Move[] availableMoves;
@@ -23,6 +24,8 @@ namespace LimakeSilverLightUI
         private PieceControl[] pieces;
         private PositionControl[] positionControls;
 
+        private PlayerType green, red, blue, yellow;
+
         public MainPage()
         {
             InitializeComponent();
@@ -30,8 +33,21 @@ namespace LimakeSilverLightUI
             InitializePositionControls();
 
             this.LayoutUpdated += new EventHandler(MainPage_LayoutUpdated);
+        }
 
-            game = new ThreadedLimakeGame();
+        private PlayerType ParseType(String key)
+        {
+            return (PlayerType)Enum.Parse(typeof(PlayerType), NavigationContext.QueryString[key], true);
+        }
+
+        // Executes when the user navigates to this page.
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            green = ParseType("Green");
+            red = ParseType("Red");
+            blue = ParseType("Blue");
+            yellow = ParseType("Yellow");
+            game = new ThreadedLimakeGame(green, red, blue, yellow);
             game.DisplaySituation += DisplaySituationHandler;
             game.DisplayRoll += DisplayRollHandler;
             game.SelectMove += SelectMoveHandler;
@@ -39,18 +55,6 @@ namespace LimakeSilverLightUI
             game.GameOver += GameOverHandler;
             game.WaitForRoll += WaitForRollHandler;
             game.Run();
-
-            Application.Current.Host.Content.Resized += new EventHandler(Content_Resized);
-        }
-
-        // Make this game scale to fit the space it is given
-        private void Content_Resized(object sender, EventArgs e)
-        {
-            double scale = Math.Min(Application.Current.Host.Content.ActualWidth, Application.Current.Host.Content.ActualHeight) / 800;
-            ScaleTransform st = new ScaleTransform();
-            st.ScaleX = scale;
-            st.ScaleY = scale;
-            this.RenderTransform = st;
         }
 
         private bool firstLayout = true;
@@ -61,8 +65,18 @@ namespace LimakeSilverLightUI
             {
                 firstLayout = false;
                 InitializePieces();
-                BlueBeer.Interactive = true;
-                BlueBeer.DrankBeer += BlueDrankBeer;
+
+                PlayerType[] players = new PlayerType[] { green, red, blue, yellow };
+                BeerDisplay[] beers = new BeerDisplay[] { GreenBeer, RedBeer, BlueBeer, YellowBeer };
+
+                for (int i = 0; i < players.Length; i++)
+                {
+                    if (players[i] == PlayerType.Human)
+                    {
+                        beers[i].Interactive = true;
+                        beers[i].DrankBeer += DrankBeer;
+                    }
+                }
 
                 die.Rolled += DieRolled;
             }
@@ -345,17 +359,24 @@ namespace LimakeSilverLightUI
             topAnimation.KeyFrames.Add(topEnd);
         }
 
-        public void BlueDrankBeer(object sender, EventArgs args)
+        public void DrankBeer(object sender, EventArgs args)
         {
-            game.DrankBeer(Piece.Blue, 1);
+            BeerDisplay[] beers = new BeerDisplay[] { GreenBeer, RedBeer, BlueBeer, YellowBeer };
+            int i;
+           
+            for (i = 0; i < beers.Length; i++)
+            {
+                if (sender == beers[i])
+                    break;
+            }
+            
+            game.DrankBeer((Piece)(i+1), 1);
         }
 
         private void BeersAcceptedHandler(Piece side, int amount)
         {
-            if (side == Piece.Blue)
-            {
-                BlueBeer.DrankCount -= amount;
-            }
+            BeerDisplay[] beers = new BeerDisplay[] { GreenBeer, RedBeer, BlueBeer, YellowBeer };
+            beers[(int)side - 1].DrankCount -= amount;
         }
 
         private void GameOverHandler(Piece winner)

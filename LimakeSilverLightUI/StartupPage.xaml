@@ -1,0 +1,53 @@
+﻿<navigation:Page x:Class="LimakeSilverLightUI.StartupPage" 
+           xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+           xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+           xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+           mc:Ignorable="d"
+           xmlns:navigation="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Navigation"
+           d:DesignWidth="640" d:DesignHeight="480"
+           Title="StartupPage Page" xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk">
+    <Grid>
+        <Grid.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Offset="0" Color="#000" />
+                <GradientStop Offset="1" Color="#333" />
+            </LinearGradientBrush>
+        </Grid.Background>
+        <Grid x:Name="LayoutRoot" Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition MinHeight="320" />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <sdk:Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Name="label1" Margin="100"  Foreground="#eee" FontSize="96" FontFamily="Portable User Interface">Limake</sdk:Label>
+        <sdk:Label Grid.Row="1" Grid.Column="0" Height="28" HorizontalAlignment="Center" Name="GreenLabel" Content="Green" Foreground="#eee" VerticalAlignment="Top" FontSize="24"/>
+        <sdk:Label Grid.Row="1" Grid.Column="1" Height="28" HorizontalAlignment="Center" Name="RedLabel" Content="Red" Foreground="#eee" VerticalAlignment="Top" FontSize="24"/>
+        <sdk:Label Grid.Row="1" Grid.Column="2" Height="28" HorizontalAlignment="Center" Name="BlueLabel" Content="Blue" Foreground="#eee" VerticalAlignment="Top" FontSize="24"/>
+        <sdk:Label Grid.Row="1" Grid.Column="3" Height="28" HorizontalAlignment="Center" Name="YellowLabel" Content="Yellow" Foreground="#eee" VerticalAlignment="Top" FontSize="24"/>
+        <RadioButton Grid.Row="2" Grid.Column="0" Name="GH" GroupName="Green" Content="Human" Foreground="#eee" FontSize="16" IsChecked="True" />
+        <RadioButton Grid.Row="2" Grid.Column="1" Name="RH" GroupName="Red" Content="Human" Foreground="#eee" FontSize="16"/>
+        <RadioButton Grid.Row="2" Grid.Column="2" Name="BH" GroupName="Blue" Content="Human" Foreground="#eee" FontSize="16"/>
+        <RadioButton Grid.Row="2" Grid.Column="3" Name="YH" GroupName="Yellow" Content="Human" Foreground="#eee" FontSize="16"/>
+            
+        <RadioButton Grid.Row="3" Grid.Column="0" Name="GR" GroupName="Green" Content="Random" Foreground="#eee" FontSize="16"/>
+        <RadioButton Grid.Row="3" Grid.Column="1" Name="RR" GroupName="Red"   Content="Random" Foreground="#eee" FontSize="16"/>
+        <RadioButton Grid.Row="3" Grid.Column="2" Name="BR" GroupName="Blue" Content="Random" Foreground="#eee" FontSize="16"/>
+        <RadioButton Grid.Row="3" Grid.Column="3" Name="YR" GroupName="Yellow" Content="Random" Foreground="#eee" FontSize="16"/>
+        <RadioButton Grid.Row="4" Grid.Column="0" Name="GS" GroupName="Green" Content="Simple AI" Foreground="#eee" FontSize="16"/>
+        <RadioButton Grid.Row="4" Grid.Column="1" Name="RS" GroupName="Red"   Content="Simple AI" Foreground="#eee" FontSize="16" IsChecked="True"/>
+        <RadioButton Grid.Row="4" Grid.Column="2" Name="BS" GroupName="Blue" Content="Simple AI" Foreground="#eee" FontSize="16" IsChecked="True"/>
+        <RadioButton Grid.Row="4" Grid.Column="3" Name="YS" GroupName="Yellow" Content="Simple AI" Foreground="#eee" FontSize="16" IsChecked="True"/>
+        <Button Grid.Row="5" Grid.Column="2" Grid.ColumnSpan="2" Content="Start Game" FontSize="16" Click="Button_Click"/>
+    </Grid>
+    </Grid>
+</navigation:Page>

@@ -68,6 +68,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Net" />
     <Reference Include="System.Windows.Controls.Data.Input, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+    <Reference Include="System.Windows.Controls.Navigation, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Windows.Browser" />
   </ItemGroup>
@@ -92,6 +93,12 @@
     </Compile>
     <Compile Include="PositionControl.xaml.cs">
       <DependentUpon>PositionControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Root.xaml.cs">
+      <DependentUpon>Root.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="StartupPage.xaml.cs">
+      <DependentUpon>StartupPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="ThreadedLimakeGame.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -155,6 +162,18 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="beer.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="Root.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="StartupPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

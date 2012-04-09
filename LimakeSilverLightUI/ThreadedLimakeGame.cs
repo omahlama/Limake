@@ -25,8 +25,16 @@ namespace LimakeSilverLightUI
     public delegate void ErrorHandler(String error);
     public delegate void WaitForRollHandler();
 
+    public enum PlayerType
+    {
+        Human,
+        Random,
+        Basic
+    }
+
     public class ThreadedLimakeGame : IPlayer, IGameDisplay
     {
+
         public SelectMoveHandler SelectMove;
         public NoMovesAvailableHandler NoMovesAvailable;
         public DisplayTurnHandler DisplayTurn;
@@ -46,12 +54,22 @@ namespace LimakeSilverLightUI
         private volatile int selectedMove;
         private int[] beersDrunk;
 
-        public ThreadedLimakeGame()
+        public ThreadedLimakeGame(PlayerType Green, PlayerType Red, PlayerType Blue, PlayerType Yellow)
         {
             beersDrunk = new int[5];
 
-            IPlayer[] players = new IPlayer[] { new BasicPlayer(), new BasicPlayer(), this, new BasicPlayer() };
+            IPlayer[] players = new IPlayer[] { GetPlayer(Green), GetPlayer(Red), GetPlayer(Blue), GetPlayer(Yellow) };
             game = new Game(this, players);
+        }
+
+        private IPlayer GetPlayer(PlayerType type)
+        {
+            switch (type)
+            {
+                case PlayerType.Basic: return new BasicPlayer();
+                case PlayerType.Random: return new RandomPlayer();
+                default: return this;
+            }
         }
 
         public void Run()

@@ -200,7 +200,6 @@ namespace Limake
                         this.beers[(int)endPiece] += currentPieceSize;
                         MoveToHome(endPiece, i);
                     }
-                    GenerateGroupings();
                 }
                 else
                 {
@@ -212,48 +211,14 @@ namespace Limake
             if (this.groupingDict.ContainsKey(move.Piece))
             {
                 List<int> groupPieces = this.groupingDict[move.Piece];
-                if (IsGoalPosition(move.EndPosition))
-                {
-                    Piece side = board[(int)move.StartPosition];
-                    int sideGoalStart = (int)GoalStarts[(int)side];
-                    foreach (int i in groupPieces)
-                    {
-                        if (i == move.Piece)
-                        {
-                            pieces[i] = move.EndPosition;
-                        }
-                        else
-                        {
-                            bool foundPlace = false;
-                            for (int j = sideGoalStart; j < (int)move.EndPosition; j++)
-                            {
-                                if (board[j] == Piece.None)
-                                {
-                                    board[j] = side;
-                                    pieces[i] = (Position)j;
-                                    foundPlace = true;
-                                    break;
-                                }
-                            }
-                            if (!foundPlace)
-                            {
-                                pieces[i] = move.EndPosition;
-                            }
-                            else
-                            {
-                                GenerateGroupings();
-                            }
-                        }
-                    }
-                }
-                else if (move.Type == MoveType.SelfTackle)
+                
+                if (move.Type == MoveType.SelfTackle)
                 {
                     List<int> list = this.groupingDict[move.Piece];
                     foreach (int i in list)
                     {
                         MoveToHome(board[(int)move.StartPosition], i);
                     }
-                    GenerateGroupings();
                 }
                 else
                 {
@@ -270,10 +235,36 @@ namespace Limake
             board[(int)move.EndPosition] = board[(int)move.StartPosition];
             board[(int)move.StartPosition] = Piece.None;
 
-            if (true || move.Type == MoveType.DoubleUp)
+            Piece side = board[(int)move.EndPosition];
+            int sideGoalStart = (int)GoalStarts[(int)side];
+            int sideGroupingStart = ((int)side - 1) * 4;
+
+            for (int i = 3; i > 0; i--)
             {
-                this.GenerateGroupings();
+                for (int j = 0; j < 4; j++)
+                {
+                    if (groupingDict.ContainsKey(sideGroupingStart + j))
+                    {
+                        List<int> g = groupingDict[sideGroupingStart + j];
+                        if ((int)pieces[g[0]] == sideGoalStart+i && g.Count > 1)
+                        {
+                            int last = g.Count - 1;
+                            for (int k = 0; k < i && last > 0; k++)
+                            {
+                                int pos = sideGoalStart + k;
+                                if (board[pos] == Piece.None)
+                                {
+                                    pieces[g[last--]] = (Position)pos;
+                                    board[pos] = side;
+                                }
+                            }
+                        }
+                    }
+                }
+
             }
+
+            this.GenerateGroupings();
         }
 
         private void MoveToHome(Piece side, int piecePos)

@@ -887,6 +887,25 @@ namespace LimakeTest
             Assert.AreEqual(Piece.Green, sit.GetWinner());
         }
 
+        [Test]
+        public void DoubleUnfoldsToStartPosition()
+        {
+            var pos = getStartPositions();
+            pos[4] = pos[5] = Position.RedGoal1;
+
+            var sit = new Situation(pos);
+            var moves = sit.GetMoves(Piece.Red, 3);
+
+            Assert.AreEqual(1, moves.Length);
+
+            sit.ApplyMove(moves[0]);
+
+            Assert.AreEqual(Piece.Red, sit.board[(int)Position.RedGoal1]);
+            Assert.AreEqual(Piece.None, sit.board[(int)Position.RedGoal2]);
+            Assert.AreEqual(Piece.None, sit.board[(int)Position.RedGoal3]);
+            Assert.AreEqual(Piece.Red, sit.board[(int)Position.RedGoal4]);
+        }
+
         private static Position[] getStartPositions()
         {
             return new Position[] { Position.GreenHome1, Position.GreenHome2, Position.GreenHome3, Position.GreenHome4,

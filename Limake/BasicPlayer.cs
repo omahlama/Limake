@@ -13,10 +13,10 @@ namespace Limake
 
         public int SelectMove(Situation situation, Move[] moves, Piece side, int roll)
         {
-            Move[] originalMoves = new Move[moves.Length];
-            Array.Copy(moves, originalMoves, moves.Length);
-            Array.Sort<Move>(moves, CompareMoves);
-            return Array.IndexOf<Move>(originalMoves, moves[0]);
+            Move[] c = new Move[moves.Length];
+            Array.Copy(moves, c, moves.Length);
+            Array.Sort<Move>(c, CompareMoves);
+            return Array.IndexOf<Move>(moves, c[0]);
         }
 
         private int CompareMoves(Move left, Move right)
@@ -26,12 +26,12 @@ namespace Limake
             {
                 if (!IsInGoal(right.EndPosition) || IsInGoal(right.StartPosition))
                 {
-                    return 1;
+                    return -1;
                 }
             }
             else if (IsInGoal(right.EndPosition) && !IsInGoal(left.StartPosition))
             {
-                return -1;
+                return 1;
             }
 
             // Syö, poistu kotipesästä, tuplaa aina kuin voit
@@ -40,8 +40,8 @@ namespace Limake
                 MoveType[] preferences = { MoveType.Eat, MoveType.OutOfHome, MoveType.DoubleUp, MoveType.Move, MoveType.SelfTackle };
                 foreach(MoveType preference in preferences) 
                 {
-                    if (left.Type == preference) return 1;
-                    if (right.Type == preference) return -1;
+                    if (left.Type == preference) return -1;
+                    if (right.Type == preference) return 1;
                 }
             }
 

@@ -10,9 +10,10 @@ namespace RunTestApp
     {
         static void Main(string[] args)
         {
-            var st = new SituationTest();
+            var st = new BasicPlayerTest();
 
-            st.TestGeneratingMovesDoesNotBreakGroupings();
+            st.Setup();
+            st.EatIfYouCan();
         }
     }
 }

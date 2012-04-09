@@ -8,7 +8,7 @@ using Limake;
 namespace LimakeTest
 {
     [TestFixture]
-    class BasicPlayerTest
+    public class BasicPlayerTest
     {
         private BasicPlayer p;
 

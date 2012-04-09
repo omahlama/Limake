@@ -24,7 +24,7 @@
         </Path>
         <!-- End of bg images -->
 
-        <limake:Die x:Name="die"  Canvas.Left="368" Canvas.Top="368"/>
+        <limake:Die x:Name="die"  Canvas.Left="304" Canvas.Top="304" />
 
         <Path x:Name="boardPath" Stroke="Black" StrokeThickness="0">
             <Path.Data>

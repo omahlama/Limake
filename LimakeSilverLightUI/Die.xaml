@@ -4,13 +4,71 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    d:DesignHeight="64" d:DesignWidth="64">
-    
-    <Canvas Height="64" Width="64">
-        <Canvas.Clip>
-            <RectangleGeometry Rect="0,0,64,64" />
-        </Canvas.Clip>
-        <Image x:Name="image" Source="/LimakeSilverLightUI;component/Noppa.png" Canvas.Left="0" />
+    d:DesignHeight="192" d:DesignWidth="192">
+
+    <Canvas x:Name="Root" Background="Transparent">
+        <Rectangle Canvas.Left="96" Canvas.Top="-10" Height="150" Width="150" Name="rectangle1" Stroke="Black" StrokeThickness="3" RadiusX="32" RadiusY="32">
+            <Rectangle.Fill>
+                <LinearGradientBrush EndPoint="1,0.5" StartPoint="0,0.5">
+                    <GradientStop Color="Transparent" Offset="0" />
+                    <GradientStop Color="White" Offset="1" />
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+            <Rectangle.RenderTransform>
+                <RotateTransform Angle="45" />
+            </Rectangle.RenderTransform>
+        </Rectangle>
+
+        <Canvas Height="64" Width="64" Canvas.Left="64" Canvas.Top="64">
+            <Canvas.RenderTransform>
+                <TransformGroup>
+                    <RotateTransform x:Name="DieAngle" Angle="0" CenterX="32" CenterY="32" />
+                    <TranslateTransform x:Name="DiePosition" X="0" Y="0" />
+                </TransformGroup>
+            </Canvas.RenderTransform>
+            <Canvas.Clip>
+                <RectangleGeometry Rect="0,0,64,64" />
+            </Canvas.Clip>
+            <Image x:Name="image" Source="/LimakeSilverLightUI;component/Noppa.png" Canvas.Left="0" />
+        </Canvas>
+        <Ellipse Canvas.Left="32" Canvas.Top="32" Height="128" Name="Circle" Stroke="Black" StrokeThickness="2" Width="128" MouseLeftButtonDown="Circle_MouseLeftButtonDown">
+            <Ellipse.Fill>
+                <RadialGradientBrush GradientOrigin="0.5,0.5" Center="0.5,0.5" RadiusX="0.5" RadiusY="0.5">
+                    <GradientStop Color="Transparent" Offset="0" />
+                    <GradientStop Color="Transparent" Offset="0.6" />
+                    <GradientStop x:Name="EllipseBorderStop"  Color="#aaa" Offset="1" />
+                </RadialGradientBrush>
+            </Ellipse.Fill>
+        </Ellipse>
+        
+        <Canvas.Resources>
+            <Storyboard x:Name="RollAnimation">
+                <DoubleAnimationUsingKeyFrames 
+                    Storyboard.TargetName="DieAngle" 
+                    Storyboard.TargetProperty="Angle">
+                    <LinearDoubleKeyFrame x:Name="StartAngle" Value="0" KeyTime="0:0:0" />
+                    <LinearDoubleKeyFrame x:Name="Angle1" Value="0" KeyTime="0:0:0.1" />
+                    <LinearDoubleKeyFrame x:Name="Angle2" Value="0" KeyTime="0:0:0.2" />
+                    <LinearDoubleKeyFrame x:Name="EndAngle" Value="0" KeyTime="0:0:0.3" />
+                </DoubleAnimationUsingKeyFrames>
+                <DoubleAnimationUsingKeyFrames 
+                    Storyboard.TargetName="DiePosition" 
+                    Storyboard.TargetProperty="X">
+                    <LinearDoubleKeyFrame x:Name="StartX" Value="0" KeyTime="0:0:0" />
+                    <LinearDoubleKeyFrame x:Name="X1" Value="0" KeyTime="0:0:0.1" />
+                    <LinearDoubleKeyFrame x:Name="X2" Value="0" KeyTime="0:0:0.2" />
+                    <LinearDoubleKeyFrame x:Name="EndX" Value="0" KeyTime="0:0:0.3" />
+                </DoubleAnimationUsingKeyFrames>
+                <DoubleAnimationUsingKeyFrames 
+                    Storyboard.TargetName="DiePosition" 
+                    Storyboard.TargetProperty="Y">
+                    <LinearDoubleKeyFrame x:Name="StartY" Value="0" KeyTime="0:0:0" />
+                    <LinearDoubleKeyFrame x:Name="Y1" Value="0" KeyTime="0:0:0.1" />
+                    <LinearDoubleKeyFrame x:Name="Y2" Value="0" KeyTime="0:0:0.2" />
+                    <LinearDoubleKeyFrame x:Name="EndY" Value="0" KeyTime="0:0:0.3" />
+                </DoubleAnimationUsingKeyFrames>
+            </Storyboard>
+        </Canvas.Resources>
     </Canvas>
 
 </UserControl>

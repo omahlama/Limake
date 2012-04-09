@@ -10,5 +10,6 @@ namespace Limake
         int SelectMove(Situation situation, Move[] moves, Piece side, int roll);
         void NoMovesAvailable(Situation situation);
         int HowManyBeersAreDrunk(Piece side);
+        void WaitForRoll();
     }
 }

@@ -23,6 +23,7 @@ namespace LimakeSilverLightUI
     public delegate void BeersAcceptedHandler(Piece side, int count);
     public delegate void GameOverHandler(Piece winner);
     public delegate void ErrorHandler(String error);
+    public delegate void WaitForRollHandler();
 
     public class ThreadedLimakeGame : IPlayer, IGameDisplay
     {
@@ -36,6 +37,7 @@ namespace LimakeSilverLightUI
         public BeersAcceptedHandler BeersAccepted;
         public GameOverHandler GameOver;
         public ErrorHandler Error;
+        public WaitForRollHandler WaitForRoll;
 
         public const int delayAmount = 500;
 
@@ -91,19 +93,19 @@ namespace LimakeSilverLightUI
         public void SetSelectedMove(int moveIndex)
         {
             this.selectedMove = moveIndex;
+            moveARE.Set();
         }
 
+        private AutoResetEvent moveARE = new AutoResetEvent(false);
         int IPlayer.SelectMove(Situation situation, Move[] moves, Piece side, int roll)
         {
             selectedMove = -1;
+            moveARE.Reset();
             Deployment.Current.Dispatcher.BeginInvoke(delegate()
             {
                 SelectMove(situation, moves, side, roll);
             });
-            while (selectedMove == -1)
-            {
-                Thread.Sleep(100);
-            }
+            moveARE.WaitOne();
             return selectedMove;
         }
 
@@ -131,6 +133,27 @@ namespace LimakeSilverLightUI
             }
             return beers;
         }
+
+        private AutoResetEvent rollARE = new AutoResetEvent(false);
+        void IPlayer.WaitForRoll()
+        {
+            rollARE.Reset();
+
+            if (WaitForRoll != null)
+            {
+                Deployment.Current.Dispatcher.BeginInvoke(() =>
+                    WaitForRoll()
+                );
+            }
+
+            rollARE.WaitOne();
+        }
+
+        public void Rolled()
+        {
+            rollARE.Set();
+        }
+
 
         private void Delay(bool isLong)
         {

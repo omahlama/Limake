@@ -23,16 +23,18 @@ namespace Limake
             // Nothing
         }
 
-        public void AskForRoll()
-        {
-        }
-
         public int HowManyBeersAreDrunk(Piece side)
         {
             int r = rand.Next(10);
             if (r > 8)
                 return 1;
             return 0;
+        }
+
+
+        public void WaitForRoll()
+        {
+            // Nothing
         }
     }
 }

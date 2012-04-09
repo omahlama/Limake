@@ -48,6 +48,7 @@ namespace Limake
                     do
                     {
                         display.DisplaySituation(situation);
+                        players[turn % 4].WaitForRoll();
                         roll = PopOMatic();
                         display.DisplayRoll(roll);
                         Move[] moves = situation.GetMoves(currentSide, roll);

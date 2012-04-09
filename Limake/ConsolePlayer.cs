@@ -43,5 +43,12 @@ namespace Limake
             } while (beers < 0);
             return beers;
         }
+
+
+        public void WaitForRoll()
+        {
+            Console.WriteLine("Press enter to roll dice.");
+            Console.ReadLine();
+        }
     }
 }

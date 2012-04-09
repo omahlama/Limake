@@ -37,6 +37,7 @@ namespace LimakeSilverLightUI
             game.SelectMove += SelectMoveHandler;
             game.BeersAccepted += BeersAcceptedHandler;
             game.GameOver += GameOverHandler;
+            game.WaitForRoll += WaitForRollHandler;
             game.Run();
 
             Application.Current.Host.Content.Resized += new EventHandler(Content_Resized);
@@ -62,6 +63,8 @@ namespace LimakeSilverLightUI
                 InitializePieces();
                 BlueBeer.Interactive = true;
                 BlueBeer.DrankBeer += BlueDrankBeer;
+
+                die.Rolled += DieRolled;
             }
         }
 
@@ -299,6 +302,16 @@ namespace LimakeSilverLightUI
                 WinnerLabel.Content = "You lost, winner is " + winner;
             }
             WinnerOverlay.Visibility = System.Windows.Visibility.Visible;
+        }
+
+        private void WaitForRollHandler()
+        {
+            die.Active = true;
+        }
+
+        private void DieRolled(Object sender, EventArgs args)
+        {
+            game.Rolled();
         }
     }
 

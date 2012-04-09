@@ -50,6 +50,7 @@ namespace LimakeSilverLightUI
             game = new ThreadedLimakeGame(green, red, blue, yellow);
             game.DisplaySituation += DisplaySituationHandler;
             game.DisplayRoll += DisplayRollHandler;
+            game.DisplayTurn += DisplayTurnHandler;
             game.SelectMove += SelectMoveHandler;
             game.BeersAccepted += BeersAcceptedHandler;
             game.GameOver += GameOverHandler;
@@ -222,6 +223,11 @@ namespace LimakeSilverLightUI
         private void DisplayRollHandler(int roll)
         {
             die.SetNumber(roll);
+        }
+
+        private void DisplayTurnHandler(Piece side, int turn)
+        {
+            TurnDisplay.SetTurn(turn);
         }
 
         // Event handlers for threadedlimakegame

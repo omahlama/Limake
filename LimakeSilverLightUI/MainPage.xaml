@@ -93,6 +93,8 @@
         <limake:BeerDisplay x:Name="RedBeer" Canvas.Left="575" Canvas.Top="275" />
         <limake:BeerDisplay x:Name="YellowBeer" Canvas.Left="125" Canvas.Top="425" />
         <limake:BeerDisplay x:Name="BlueBeer" Canvas.Left="425" Canvas.Top="575" />
+        
+        <limake:TurnDisplay x:Name="TurnDisplay" Canvas.Left="0" Canvas.Top="0" />
 
         <Grid x:Name="WinnerOverlay" Visibility="Collapsed" Canvas.Left="0" Canvas.Top="0" Canvas.ZIndex="100" Width="800" Height="800">
             <Rectangle>
@@ -102,5 +104,6 @@
             </Rectangle>
             <sdk:Label x:Name="WinnerLabel" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="White" FontSize="48"></sdk:Label>
         </Grid>
+        
     </Canvas>
 </navigation:Page>

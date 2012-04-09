@@ -117,7 +117,13 @@ namespace LimakeSilverLightUI
 
                 if (i < (int)Position.GreenGoal1)
                 {
-                    pi.Color = Colors.White;
+                    switch((Position)i) {
+                        case Position.GreenStart: pi.Color = Colors.Green; break;
+                        case Position.RedStart: pi.Color = Colors.Red; break;
+                        case Position.BlueStart: pi.Color = Colors.Blue; break;
+                        case Position.YellowStart: pi.Color = Colors.Yellow; break;
+                        default: pi.Color = Colors.White; break;
+                    }
                     boardPanel.Children.Add(pc);
                 }
                 else if (i < (int)Position.RedGoal1)

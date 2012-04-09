@@ -862,6 +862,51 @@ namespace LimakeTest
         }
 
         [Test]
+        public void SelfTackleAddsBeer()
+        {
+            var pos = getStartPositions();
+            pos[0] = Position.Green6;
+            pos[4] = Position.RedStart;
+
+            var sit = new Situation(pos);
+            var moves = sit.GetMoves(Piece.Green, 1);
+            sit.ApplyMove(moves[0]);
+
+            Assert.AreEqual(1, sit.beers[(int)Piece.Green]);
+        }
+
+        [Test]
+        public void DoubleSelfTackleAddsTwoBeers()
+        {
+            var pos = getStartPositions();
+            pos[0] = Position.Green5;
+            pos[1] = Position.Green5;
+            pos[4] = Position.RedStart;
+
+            var sit = new Situation(pos);
+            var moves = sit.GetMoves(Piece.Green, 2);
+            sit.ApplyMove(moves[0]);
+
+            Assert.AreEqual(2, sit.beers[(int)Piece.Green]);
+        }
+
+        [Test]
+        public void DoubleSelfTackleAgainstDoubleAddsFourBeers()
+        {
+            var pos = getStartPositions();
+            pos[0] = Position.Green5;
+            pos[1] = Position.Green5;
+            pos[4] = Position.RedStart;
+            pos[5] = Position.RedStart;
+
+            var sit = new Situation(pos);
+            var moves = sit.GetMoves(Piece.Green, 2);
+            sit.ApplyMove(moves[0]);
+
+            Assert.AreEqual(4, sit.beers[(int)Piece.Green]);
+        }
+
+        [Test]
         public void DoubleUnfoldsWhenPiecesBeforeItAreFilled()
         {
             var pos = getStartPositions();

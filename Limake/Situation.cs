@@ -184,6 +184,7 @@ namespace Limake
             this.ClearAnimations();
 
             Piece endPiece = board[(int)move.EndPosition];
+            Piece currentSide = board[(int)move.StartPosition];
             if (endPiece != Piece.None && move.Type != MoveType.DoubleUp)
             {
                 int currentPieceSize = 1;
@@ -220,10 +221,20 @@ namespace Limake
                 
                 if (move.Type == MoveType.SelfTackle)
                 {
+                    int safetySize = 1, safetyPos = 0;
+                    while (pieces[safetyPos] != move.MiddlePosition)
+                    {
+                        safetyPos++;
+                    }
+                    if(groupingDict.ContainsKey(safetyPos)) {
+                        safetySize = groupingDict[safetyPos].Count;
+                    }
+
                     List<int> list = this.groupingDict[move.Piece];
                     foreach (int i in list)
                     {
                         AddAnimation(0, i, move.StartPosition, move.MiddlePosition);
+                        this.beers[(int)currentSide] += safetySize;
                         MoveToHome(board[(int)move.StartPosition], i);
                     }
                 }
@@ -240,6 +251,16 @@ namespace Limake
             {
                 if (move.Type == MoveType.SelfTackle)
                 {
+                    int safetySize = 1, safetyPos = 0;
+                    while (pieces[safetyPos] != move.MiddlePosition)
+                    {
+                        safetyPos++;
+                    }
+                    if (groupingDict.ContainsKey(safetyPos))
+                    {
+                        safetySize = groupingDict[safetyPos].Count;
+                    }
+                    this.beers[(int)currentSide]+= safetySize;
                     AddAnimation(0, move.Piece, move.StartPosition, move.MiddlePosition);
                     AddAnimation(1, move.Piece, move.MiddlePosition, move.EndPosition);
                 }

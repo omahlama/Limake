@@ -275,6 +275,14 @@ namespace Limake
             board[(int)move.StartPosition] = Piece.None;
 
             Piece side = board[(int)move.EndPosition];
+            UnfoldMultiples(side);
+
+            this.GenerateGroupings();
+        }
+
+        public bool UnfoldMultiples(Piece side)
+        {
+            bool change = false;
             int sideGoalStart = (int)GoalStarts[(int)side];
             int sideGroupingStart = ((int)side - 1) * 4;
 
@@ -285,7 +293,7 @@ namespace Limake
                     if (groupingDict.ContainsKey(sideGroupingStart + j))
                     {
                         List<int> g = groupingDict[sideGroupingStart + j];
-                        if ((int)pieces[g[0]] == sideGoalStart+i && g.Count > 1)
+                        if ((int)pieces[g[0]] == sideGoalStart + i && g.Count > 1)
                         {
                             int last = g.Count - 1;
                             for (int k = 0; k < i && last > 0; k++)
@@ -295,8 +303,9 @@ namespace Limake
                                 {
                                     pieces[g[last]] = (Position)pos;
                                     board[pos] = side;
-                                    AddAnimation(1, g[last], pieces[g[0]], (Position)pos); 
+                                    AddAnimation(1, g[last], pieces[g[0]], (Position)pos);
                                     last--;
+                                    change = true;
                                 }
                             }
                         }
@@ -305,7 +314,7 @@ namespace Limake
 
             }
 
-            this.GenerateGroupings();
+            return change;
         }
 
         private void MoveToHome(Piece side, int piecePos)
@@ -594,6 +603,8 @@ namespace Limake
 
         private void AddAnimation(int step, int piece, Position start, Position end)
         {
+            if (this.animations[step] == null)
+                this.animations[step] = new List<Animation>();
             this.animations[step].Add(new Animation() { Start = start, End = end, Piece = piece });
         }
 

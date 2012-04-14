@@ -392,14 +392,7 @@ namespace LimakeSilverLightUI
 
         private void GameOverHandler(Piece winner)
         {
-            if (winner == Piece.Blue)
-            {
-                WinnerLabel.Content = "You won!";
-            }
-            else
-            {
-                WinnerLabel.Content = "You lost, winner is " + winner;
-            }
+            WinnerLabel.Content = winner + " player won!";
             WinnerOverlay.Visibility = System.Windows.Visibility.Visible;
         }
 

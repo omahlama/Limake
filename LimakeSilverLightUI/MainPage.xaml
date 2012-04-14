@@ -96,6 +96,11 @@
         
         <limake:TurnDisplay x:Name="TurnDisplay" Canvas.Left="0" Canvas.Top="0" />
 
+        <sdk:Label x:Name="GreenTurnsLabel" Canvas.Left="0" Canvas.Top="0" Height="50" Width="50" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+        <sdk:Label x:Name="RedTurnsLabel" Canvas.Left="750" Canvas.Top="0" Height="50" Width="50" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+        <sdk:Label x:Name="BlueTurnsLabel" Canvas.Left="750" Canvas.Top="750" Height="50" Width="50" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+        <sdk:Label x:Name="YellowTurnsLabel" Canvas.Left="0" Canvas.Top="750" Height="50" Width="50" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"/>
+
         <Grid x:Name="WinnerOverlay" Visibility="Collapsed" Canvas.Left="0" Canvas.Top="0" Canvas.ZIndex="100" Width="800" Height="800">
             <Rectangle>
                 <Rectangle.Fill>

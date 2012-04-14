@@ -218,6 +218,11 @@ namespace LimakeSilverLightUI
             RedBeer.BeerCount = situation.beers[(int)Piece.Red];
             BlueBeer.BeerCount = situation.beers[(int)Piece.Blue];
             YellowBeer.BeerCount = situation.beers[(int)Piece.Yellow];
+
+            GreenTurnsLabel.Content = SinglePlayerData.Instance.GetTurnsRemainingExpectedValue(situation, Piece.Green).ToString("f2");
+            RedTurnsLabel.Content = SinglePlayerData.Instance.GetTurnsRemainingExpectedValue(situation, Piece.Red).ToString("f2");
+            BlueTurnsLabel.Content = SinglePlayerData.Instance.GetTurnsRemainingExpectedValue(situation, Piece.Blue).ToString("f2");
+            YellowTurnsLabel.Content = SinglePlayerData.Instance.GetTurnsRemainingExpectedValue(situation, Piece.Yellow).ToString("f2");
         }
 
         private void DisplayRollHandler(int roll)
